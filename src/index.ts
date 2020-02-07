@@ -26,8 +26,8 @@ const convertCommandToNpm = (command: string): string => {
 };
 
 ((): void => {
-  const npmLockFile = path.resolve(__dirname, 'package-lock.json');
-  const yarnLockFile = path.resolve(__dirname, 'yarn.lock');
+  const npmLockFile = path.resolve(__dirname, '..', 'package-lock.json');
+  const yarnLockFile = path.resolve(__dirname, '..', 'yarn.lock');
   const isNpmExisted = fs.existsSync(npmLockFile);
   const isYarnExisted = fs.existsSync(yarnLockFile);
   if (isNpmExisted && isYarnExisted) {
@@ -48,7 +48,9 @@ const convertCommandToNpm = (command: string): string => {
     console.log(chalk.gray(`npm ${npmCommand} ${options.join(' ')}`));
 
     exec(`npm ${npmCommand} ${options.join(' ')}`, (err: ExecException, stdout: string, stderr: string) => {
-      console.log(err.message);
+      if (err) {
+        console.log(err.message);
+      }
       console.log(stderr);
       console.log(stdout);
     });
@@ -60,7 +62,9 @@ const convertCommandToNpm = (command: string): string => {
     console.log(chalk.gray(`yarn ${yarnCommand} ${options.join(' ')}`));
 
     exec(`yarn ${yarnCommand} ${options.join(' ')}`, (err: ExecException, stdout: string, stderr: string) => {
-      console.log(err.message);
+      if (err) {
+        console.log(err.message);
+      }
       console.log(stderr);
       console.log(stdout);
     });
