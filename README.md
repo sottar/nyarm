@@ -10,7 +10,7 @@ We can use just nyarm.
 ## install
 
 ```sh
-$ npm install -g nyarm
+$ npm install -G nyarm
 # or 
 $ yarn global add nyarm
 ```
