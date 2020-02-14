@@ -23,7 +23,7 @@ const convertCommandToYarn = (command: string, options: Array<string>): string =
     return 'remove';
   }
   // nyarm {command}
-  return '';
+  return command;
 };
 
 const convertCommandToNpm = (command: string): string => {
