@@ -6,6 +6,10 @@ import { ExecException } from 'child_process';
 const exec = require('child_process').exec;
 
 const convertCommandToYarn = (command: string, options: Array<string>): string => {
+  if (!command) {
+    return 'install';
+  }
+
   if (command === 'install' && options.length > 0) {
     return 'add';
   }
@@ -22,12 +26,12 @@ const convertCommandToNpm = (command: string): string => {
   if (command === 'remove') {
     return 'uninstall';
   }
-  return command;
+  return `run ${command}`;
 };
 
 ((): void => {
-  const npmLockFile = path.resolve(__dirname, '..', 'package-lock.json');
-  const yarnLockFile = path.resolve(__dirname, '..', 'yarn.lock');
+  const npmLockFile = 'package-lock.json';
+  const yarnLockFile = 'yarn.lock';
   const isNpmExisted = fs.existsSync(npmLockFile);
   const isYarnExisted = fs.existsSync(yarnLockFile);
   if (isNpmExisted && isYarnExisted) {
@@ -43,7 +47,8 @@ const convertCommandToNpm = (command: string): string => {
 
     const npmCommand = convertCommandToNpm(command);
 
-    console.log(chalk.gray(`npm ${npmCommand} ${options.join(' ')}`));
+    console.log('');
+    console.log(chalk.gray(`> npm ${npmCommand} ${options.join(' ')}`));
 
     exec(`npm ${npmCommand} ${options.join(' ')}`, (err: ExecException, stdout: string, stderr: string) => {
       if (err) {
@@ -57,10 +62,8 @@ const convertCommandToNpm = (command: string): string => {
     console.log(chalk.green('yarn.lock is found, use yarn...'));
 
     const yarnCommand = convertCommandToYarn(command, options);
-    console.log(
-      chalk.green(`
-    > yarn ${yarnCommand} ${options.join(' ')}`),
-    );
+    console.log('');
+    console.log(chalk.green(`> yarn ${yarnCommand} ${options.join(' ')}`));
 
     exec(`yarn ${yarnCommand} ${options.join(' ')}`, (err: ExecException, stdout: string, stderr: string) => {
       if (err) {
