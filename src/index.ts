@@ -45,7 +45,47 @@ const convertCommandToNpm = (command: string): string => {
   return 'run';
 };
 
-((): void => {
+const showVersion = async (): Promise<void> => {
+  const pkg = await import('../package.json');
+
+  console.log(`v${pkg.version}`);
+};
+const showHelp = (): void => {
+  console.log(
+    chalk.bold(`
+nyarm read your current project and judge using npm or yarn.
+you can use just nyarm command instead of npm or yarn command.`),
+  );
+  console.log(`
+  $ nyarm {install | add}
+  # npm project => npm install
+  # yarn project => yarn install
+
+  $ nyarm {install | add} foobar
+  # npm project => npm install foobar
+  # yarn project => yarn add foobar
+
+  $ nyarm {uninstall | remove} foobar
+  # npm project => npm uninstall foobar
+  # yarn project => yarn remove foobar
+  `);
+};
+
+(async (): Promise<void> => {
+  const options = process.argv.slice(3);
+  const command = process.argv[2];
+
+  switch (command) {
+    case '-v':
+    case '--version':
+      await showVersion();
+      return;
+    case '-h':
+    case '--help':
+      showHelp();
+      return;
+  }
+
   const npmLockFile = 'package-lock.json';
   const yarnLockFile = 'yarn.lock';
   const isNpmExisted = fs.existsSync(npmLockFile);
@@ -54,9 +94,6 @@ const convertCommandToNpm = (command: string): string => {
     console.log(chalk.red('Both of package-lock.json and yarn.lock are existed. Please confirm project config.'));
     process.exit(0);
   }
-
-  const options = process.argv.slice(3);
-  const command = process.argv[2];
 
   if (isNpmExisted) {
     console.log(chalk.green('package-lock.json is found, use npm...'));

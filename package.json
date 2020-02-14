@@ -1,12 +1,12 @@
 {
   "name": "nyarm",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "😸 npm + yarn => nyarm 😸",
   "main": "lib/nyarm.js",
   "scripts": {
     "prepare": "run-s clean build terser",
     "build": "tsc",
-    "terser": "npx terser --compress --mangle --output lib/nyarm.js  -- dist/index.js",
+    "terser": "npx terser --compress --mangle --output lib/nyarm.js  -- dist/src/index.js",
     "lint": "eslint src/*",
     "clean": "run-p clean:dist clean:lib",
     "clean:dist": "rimraf dist/*",
