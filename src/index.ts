@@ -45,7 +45,26 @@ const convertCommandToNpm = (command: string): string => {
   return 'run';
 };
 
-((): void => {
+const showVersion = async (): Promise<void> => {
+  const pkg = await import('../package.json');
+
+  console.log(`v${pkg.version}`);
+};
+
+(async (): Promise<void> => {
+  const options = process.argv.slice(3);
+  const command = process.argv[2];
+
+  switch (command) {
+    case '-v':
+    case '--version':
+      await showVersion();
+      return;
+    case '-h':
+    case '--help':
+      return;
+  }
+
   const npmLockFile = 'package-lock.json';
   const yarnLockFile = 'yarn.lock';
   const isNpmExisted = fs.existsSync(npmLockFile);
@@ -54,9 +73,6 @@ const convertCommandToNpm = (command: string): string => {
     console.log(chalk.red('Both of package-lock.json and yarn.lock are existed. Please confirm project config.'));
     process.exit(0);
   }
-
-  const options = process.argv.slice(3);
-  const command = process.argv[2];
 
   if (isNpmExisted) {
     console.log(chalk.green('package-lock.json is found, use npm...'));
