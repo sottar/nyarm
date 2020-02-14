@@ -1,6 +1,6 @@
 {
   "name": "nyarm",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "😸 npm + yarn => nyarm 😸",
   "main": "lib/nyarm.js",
   "scripts": {
