@@ -7,7 +7,7 @@ We can use just nyarm.
 
 ## install
 
-```
+```sh
 $ npm install -g nyarm
 # or 
 $ yarn global add nyarm
