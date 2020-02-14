@@ -1,15 +1,16 @@
 {
   "name": "nyarm",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "😸 npm + yarn => nyarm 😸",
-  "main": "dist/index.min.js",
-  "types": "dist/index.d.ts",
+  "main": "lib/nyarm.js",
   "scripts": {
-    "prepublish": "run-s clean build terser",
+    "prepare": "run-s clean build terser",
     "build": "tsc",
-    "terser": "npx terser --compress --mangle --output dist/index.min.js  -- dist/index.js",
+    "terser": "npx terser --compress --mangle --output lib/nyarm.js  -- dist/index.js",
     "lint": "eslint src/*",
-    "clean": "rimraf dist/*",
+    "clean": "run-p clean:dist clean:lib",
+    "clean:dist": "rimraf dist/*",
+    "clean:lib": "rimraf lib/*",
     "precommit": "run-p lint build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -47,5 +48,8 @@
   "bugs": {
     "url": "https://github.com/sottar/nyarm/issues"
   },
-  "homepage": "https://github.com/sottar/nyarm#readme"
+  "homepage": "https://github.com/sottar/nyarm#readme",
+  "bin": {
+    "nyarm": "./bin/nyarm.js"
+  }
 }

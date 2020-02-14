@@ -37,8 +37,6 @@ const convertCommandToNpm = (command: string): string => {
 
   const options = process.argv.slice(3);
   const command = process.argv[2];
-  console.log({ command });
-  console.log({ options });
 
   if (isNpmExisted) {
     console.log(chalk.green('package-lock.json is found, use npm...'));
@@ -59,7 +57,10 @@ const convertCommandToNpm = (command: string): string => {
     console.log(chalk.green('yarn.lock is found, use yarn...'));
 
     const yarnCommand = convertCommandToYarn(command, options);
-    console.log(chalk.gray(`yarn ${yarnCommand} ${options.join(' ')}`));
+    console.log(
+      chalk.green(`
+    > yarn ${yarnCommand} ${options.join(' ')}`),
+    );
 
     exec(`yarn ${yarnCommand} ${options.join(' ')}`, (err: ExecException, stdout: string, stderr: string) => {
       if (err) {
