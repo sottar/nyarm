@@ -1,5 +1,7 @@
 # nyarm
 
+[![npm version](https://badge.fury.io/js/nyarm.svg)](https://badge.fury.io/js/nyarm)
+
 npm + yarn => nyarm
 
 Can you answer npm or yarn in your project?
