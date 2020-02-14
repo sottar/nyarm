@@ -50,6 +50,26 @@ const showVersion = async (): Promise<void> => {
 
   console.log(`v${pkg.version}`);
 };
+const showHelp = (): void => {
+  console.log(
+    chalk.bold(`
+nyarm read your current project and judge using npm or yarn.
+you can use just nyarm command instead of npm or yarn command.`),
+  );
+  console.log(`
+  $ nyarm {install | add}
+  # npm project => npm install
+  # yarn project => yarn install
+
+  $ nyarm {install | add} foobar
+  # npm project => npm install foobar
+  # yarn project => yarn add foobar
+
+  $ nyarm {uninstall | remove} foobar
+  # npm project => npm uninstall foobar
+  # yarn project => yarn remove foobar
+  `);
+};
 
 (async (): Promise<void> => {
   const options = process.argv.slice(3);
@@ -62,6 +82,7 @@ const showVersion = async (): Promise<void> => {
       return;
     case '-h':
     case '--help':
+      showHelp();
       return;
   }
 
