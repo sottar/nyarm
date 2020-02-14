@@ -5,27 +5,44 @@ import { ExecException } from 'child_process';
 const exec = require('child_process').exec;
 
 const convertCommandToYarn = (command: string, options: Array<string>): string => {
-  if (!command) {
+  // nyarm
+  // nyarm install
+  if ((!command && options.length === 0) || (command === 'install' && options.length === 0)) {
     return 'install';
   }
 
-  if (command === 'install' && options.length > 0) {
+  // nyarm install {foo}
+  // nyarm add {foo}
+  if ((command === 'install' && options.length > 0) || (command === 'add' && options.length > 0)) {
     return 'add';
   }
-  if (command === 'uninstall') {
+
+  // nyarm uninstall {foo}
+  // nyarm remove {foo}
+  if (command === 'uninstall' || command === 'remove') {
     return 'remove';
   }
-  return command;
+  // nyarm {command}
+  return '';
 };
 
 const convertCommandToNpm = (command: string): string => {
-  if (!command || command === 'add') {
+  // nyarm
+  // nyarm install
+  // nyarm install {foo}
+  // nyarm add {foo}
+  if (!command || command === 'install' || command === 'add') {
     return 'install';
   }
-  if (command === 'remove') {
+
+  // nyarm uninstall {foo}
+  // nyarm remove {foo}
+  if (command === 'uninstall' || command === 'remove') {
     return 'uninstall';
   }
-  return `run ${command}`;
+
+  // nyarm {command}
+  return 'run';
 };
 
 ((): void => {
