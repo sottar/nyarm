@@ -1,5 +1,7 @@
 import fs from 'fs';
 import chalk from 'chalk';
+import inquirer from 'inquirer';
+
 import { ExecException } from 'child_process';
 
 const exec = require('child_process').exec;
@@ -45,11 +47,62 @@ const convertCommandToNpm = (command: string): string => {
   return 'run';
 };
 
+const initInstall = async (): Promise<void> => {
+  const answer = await inquirer.prompt({
+    type: 'confirm',
+    name: 'create',
+    message: `Could not find a npm/yarn lockfile. Do you want to install packages?`,
+    default: false,
+  });
+
+  if (!answer.create) {
+    return;
+  }
+
+  const answer2 = await inquirer.prompt({
+    type: 'rawlist',
+    name: 'manager',
+    message: `Which manager do you want to use?`,
+    choices: ['npm', 'yarn'],
+  });
+
+  if (answer2.manager === 'npm') {
+    console.log('');
+    console.log(chalk.gray('> npm install'));
+    await exec('npm install', (err: ExecException, stdout: string, stderr: string) => {
+      if (err) {
+        console.log(err.message);
+      }
+      console.log(stderr);
+      console.log(stdout);
+
+      console.log('');
+      console.log(chalk.green('Done.'));
+    });
+  }
+
+  if (answer2.manager === 'yarn') {
+    console.log('');
+    console.log(chalk.gray('> yarn install'));
+
+    exec(`yarn install`, (err: ExecException, stdout: string, stderr: string) => {
+      if (err) {
+        console.log(err.message);
+      }
+      console.log(stderr);
+      console.log(stdout);
+      console.log('');
+      console.log(chalk.green('Done.'));
+    });
+  }
+};
+
 const showVersion = async (): Promise<void> => {
   const pkg = await import('../package.json');
 
   console.log(`v${pkg.version}`);
 };
+
 const showHelp = (): void => {
   console.log(
     chalk.bold(`
@@ -90,6 +143,9 @@ you can use just nyarm command instead of npm or yarn command.`),
   const yarnLockFile = 'yarn.lock';
   const isNpmExisted = fs.existsSync(npmLockFile);
   const isYarnExisted = fs.existsSync(yarnLockFile);
+  if (!isNpmExisted && !isYarnExisted) {
+    await initInstall();
+  }
   if (isNpmExisted && isYarnExisted) {
     console.log(chalk.red('Both of package-lock.json and yarn.lock are existed. Please confirm project config.'));
     process.exit(0);
