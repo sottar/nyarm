@@ -30,13 +30,13 @@ const run = (command: string): Promise<void> => {
 const convertCommandToYarn = (command: string, options: Array<string>): string => {
   // nyarm
   // nyarm install
-  if ((!command && options.length === 0) || (command === 'install' && options.length === 0)) {
+  if ((!command && options.length === 0) || ((command === 'install' || command === 'i') && options.length === 0)) {
     return 'install';
   }
 
   // nyarm install {foo}
   // nyarm add {foo}
-  if ((command === 'install' && options.length > 0) || (command === 'add' && options.length > 0)) {
+  if (((command === 'install' || command === 'i') && options.length > 0) || (command === 'add' && options.length > 0)) {
     return 'add';
   }
 
@@ -54,7 +54,7 @@ const convertCommandToNpm = (command: string): string => {
   // nyarm install
   // nyarm install {foo}
   // nyarm add {foo}
-  if (!command || command === 'install' || command === 'add') {
+  if (!command || command === 'install' || command === 'i' || command === 'add') {
     return 'install';
   }
 
