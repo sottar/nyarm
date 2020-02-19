@@ -1,10 +1,31 @@
 import fs from 'fs';
 import chalk from 'chalk';
 import inquirer from 'inquirer';
+import childProcess from 'child_process';
 
-import { ExecException } from 'child_process';
-
-const exec = require('child_process').exec;
+const run = (command: string): Promise<void> => {
+  const spawn = childProcess.spawn;
+  return new Promise(resolve => {
+    const child = spawn(command, { shell: true });
+    child.stdout.on('data', (data: Buffer) => {
+      let output = data.toString();
+      if (output.slice(-1) === '\n') {
+        output = output.substring(0, output.length - 1);
+      }
+      console.log(chalk(output));
+    });
+    child.stderr.on('data', (data: Buffer) => {
+      let output = data.toString();
+      if (output.slice(-1) === '\n') {
+        output = output.substring(0, output.length - 1);
+      }
+      console.log(chalk(output));
+    });
+    child.on('close', () => {
+      resolve();
+    });
+  });
+};
 
 const convertCommandToYarn = (command: string, options: Array<string>): string => {
   // nyarm
@@ -69,31 +90,14 @@ const initInstall = async (): Promise<void> => {
   if (answer2.manager === 'npm') {
     console.log('');
     console.log(chalk.gray('> npm install'));
-    await exec('npm install', (err: ExecException, stdout: string, stderr: string) => {
-      if (err) {
-        console.log(err.message);
-      }
-      console.log(stderr);
-      console.log(stdout);
-
-      console.log('');
-      console.log(chalk.green('Done.'));
-    });
+    await run('npm install');
   }
 
   if (answer2.manager === 'yarn') {
     console.log('');
     console.log(chalk.gray('> yarn install'));
 
-    exec(`yarn install`, (err: ExecException, stdout: string, stderr: string) => {
-      if (err) {
-        console.log(err.message);
-      }
-      console.log(stderr);
-      console.log(stdout);
-      console.log('');
-      console.log(chalk.green('Done.'));
-    });
+    await run('yarn install');
   }
 };
 
@@ -158,14 +162,7 @@ you can use just nyarm command instead of npm or yarn command.`),
 
     console.log('');
     console.log(chalk.gray(`> npm ${npmCommand} ${options.join(' ')}`));
-
-    exec(`npm ${npmCommand} ${options.join(' ')}`, (err: ExecException, stdout: string, stderr: string) => {
-      if (err) {
-        console.log(err.message);
-      }
-      console.log(stderr);
-      console.log(stdout);
-    });
+    await run(`npm ${npmCommand} ${options.join(' ')}`);
   }
   if (isYarnExisted) {
     console.log(chalk.green('yarn.lock is found, use yarn...'));
@@ -174,12 +171,6 @@ you can use just nyarm command instead of npm or yarn command.`),
     console.log('');
     console.log(chalk.green(`> yarn ${yarnCommand} ${options.join(' ')}`));
 
-    exec(`yarn ${yarnCommand} ${options.join(' ')}`, (err: ExecException, stdout: string, stderr: string) => {
-      if (err) {
-        console.log(err.message);
-      }
-      console.log(stderr);
-      console.log(stdout);
-    });
+    await run(`yarn ${yarnCommand} ${options.join(' ')}`);
   }
 })();
