@@ -4,12 +4,10 @@
   "description": "😸 npm + yarn => nyarm 😸",
   "main": "lib/nyarm.js",
   "scripts": {
-    "prepare": "run-s clean build terser",
-    "build": "tsc",
-    "terser": "npx terser --compress --mangle --output lib/nyarm.js  -- dist/src/index.js",
+    "prepare": "run-s clean build",
+    "build": "rollup -c",
     "lint": "eslint src/*",
-    "clean": "run-p clean:dist clean:lib",
-    "clean:dist": "rimraf dist/*",
+    "clean": "run-p clean:lib",
     "clean:lib": "rimraf lib/*",
     "precommit": "run-p lint build",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -31,6 +29,8 @@
     "inquirer": "^7.0.4"
   },
   "devDependencies": {
+    "@rollup/plugin-json": "^4.0.2",
+    "@rollup/plugin-typescript": "^3.0.0",
     "@types/chalk": "2.2.0",
     "@types/inquirer": "^6.5.0",
     "@types/node": "13.7.2",
@@ -43,9 +43,13 @@
     "npm-run-all": "4.1.5",
     "prettier": "1.19.1",
     "rimraf": "3.0.1",
-    "terser": "4.6.3",
+    "rollup": "^1.31.1",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-terser": "^5.2.0",
+    "rollup-plugin-typescript2": "^0.26.0",
     "ts-node": "8.6.2",
-    "typescript": "3.7.5"
+    "tslib": "^1.10.0",
+    "typescript": "^3.7.5"
   },
   "bugs": {
     "url": "https://github.com/sottar/nyarm/issues"
