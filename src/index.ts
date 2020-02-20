@@ -2,6 +2,7 @@ import fs from 'fs';
 import chalk from 'chalk';
 import inquirer from 'inquirer';
 import childProcess from 'child_process';
+import { convertCommandToNpm, convertCommandToYarn } from './converters';
 
 const run = (command: string): Promise<void> => {
   const spawn = childProcess.spawn;
@@ -25,47 +26,6 @@ const run = (command: string): Promise<void> => {
       resolve();
     });
   });
-};
-
-const convertCommandToYarn = (command: string, options: Array<string>): string => {
-  // nyarm
-  // nyarm install
-  if ((!command && options.length === 0) || ((command === 'install' || command === 'i') && options.length === 0)) {
-    return 'install';
-  }
-
-  // nyarm install {foo}
-  // nyarm add {foo}
-  if (((command === 'install' || command === 'i') && options.length > 0) || (command === 'add' && options.length > 0)) {
-    return 'add';
-  }
-
-  // nyarm uninstall {foo}
-  // nyarm remove {foo}
-  if (command === 'uninstall' || command === 'remove') {
-    return 'remove';
-  }
-  // nyarm {command}
-  return command;
-};
-
-const convertCommandToNpm = (command: string): string => {
-  // nyarm
-  // nyarm install
-  // nyarm install {foo}
-  // nyarm add {foo}
-  if (!command || command === 'install' || command === 'i' || command === 'add') {
-    return 'install';
-  }
-
-  // nyarm uninstall {foo}
-  // nyarm remove {foo}
-  if (command === 'uninstall' || command === 'remove') {
-    return 'uninstall';
-  }
-
-  // nyarm {command}
-  return 'run';
 };
 
 const initInstall = async (): Promise<void> => {
@@ -129,10 +89,9 @@ you can use just nyarm command instead of npm or yarn command.`),
 };
 
 (async (): Promise<void> => {
-  const options = process.argv.slice(3);
-  const command = process.argv[2];
+  const commands = process.argv.slice(2);
 
-  switch (command) {
+  switch (commands[0]) {
     case '-v':
     case '--version':
       await showVersion();
@@ -158,19 +117,19 @@ you can use just nyarm command instead of npm or yarn command.`),
   if (isNpmExisted) {
     console.log(chalk.green('package-lock.json is found, use npm...'));
 
-    const npmCommand = convertCommandToNpm(command);
+    const npmCommand = convertCommandToNpm(commands);
 
     console.log('');
-    console.log(chalk.gray(`> npm ${npmCommand} ${options.join(' ')}`));
-    await run(`npm ${npmCommand} ${options.join(' ')}`);
+    console.log(chalk.gray(`> npm ${npmCommand}`));
+    await run(`npm ${npmCommand}`);
   }
   if (isYarnExisted) {
     console.log(chalk.green('yarn.lock is found, use yarn...'));
 
-    const yarnCommand = convertCommandToYarn(command, options);
+    const yarnCommand = convertCommandToYarn(commands);
     console.log('');
-    console.log(chalk.green(`> yarn ${yarnCommand} ${options.join(' ')}`));
+    console.log(chalk.green(`> yarn ${yarnCommand}`));
 
-    await run(`yarn ${yarnCommand} ${options.join(' ')}`);
+    await run(`yarn ${yarnCommand}`);
   }
 })();
