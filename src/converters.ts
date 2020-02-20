@@ -36,6 +36,14 @@ const convertCommandToYarn = (commands: string[]): string => {
   // nyarm install {foo}
   // nyarm add {foo}
   if (com === 'install' || com === 'i' || com === 'add') {
+    if (op.includes('-S')) {
+      const index = op.indexOf('-S');
+      op.splice(index, 1);
+    }
+    if (op.includes('--save')) {
+      const index = op.indexOf('--save');
+      op.splice(index, 1);
+    }
     return `add ${op.join(' ')}`;
   }
   // nyarm uninstall {foo}

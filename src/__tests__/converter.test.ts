@@ -104,16 +104,16 @@ describe('convertCommandToYarn', (): void => {
     const result: string = convertCommandToYarn(commands);
     expect(result).toBe('add foo bar');
   });
-  // test('nyarm install --save foo', (): void => {
-  //   const commands = ['install', '--save', 'foo'];
-  //   const result: string = convertCommandToYarn(commands);
-  //   expect(result).toBe('add foo');
-  // });
-  // test('nyarm install foo -S', (): void => {
-  //   const commands = ['install', 'foo', '-S'];
-  //   const result: string = convertCommandToYarn(commands);
-  //   expect(result).toBe('add foo');
-  // });
+  test('nyarm install --save foo', (): void => {
+    const commands = ['install', '--save', 'foo'];
+    const result: string = convertCommandToYarn(commands);
+    expect(result).toBe('add foo');
+  });
+  test('nyarm install foo -S', (): void => {
+    const commands = ['install', 'foo', '-S'];
+    const result: string = convertCommandToYarn(commands);
+    expect(result).toBe('add foo');
+  });
   test('nyarm i --dev foo', (): void => {
     const commands = ['i', '--dev', 'foo'];
     const result: string = convertCommandToYarn(commands);
