@@ -45,7 +45,7 @@
     "rimraf": "3.0.1",
     "terser": "4.6.3",
     "ts-node": "8.6.2",
-    "typescript": "3.7.5"
+    "typescript": "3.8.2"
   },
   "bugs": {
     "url": "https://github.com/sottar/nyarm/issues"
