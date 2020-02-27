@@ -49,10 +49,10 @@
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-terser": "^5.2.0",
     "rollup-plugin-typescript2": "^0.26.0",
+    "terser": "4.6.3",
     "ts-jest": "^25.2.1",
     "ts-node": "8.6.2",
     "tslib": "^1.10.0",
-    "terser": "4.6.3",
     "typescript": "3.8.2"
   },
   "bugs": {
