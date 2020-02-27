@@ -5,7 +5,7 @@
 npm + yarn => nyarm
 
 Can you answer npm or yarn in your project?
-We can use just nyarm.
+You can use just nyarm for all your project.
 
 ## install
 

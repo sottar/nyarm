@@ -23,6 +23,6 @@
     "sourceType": "module"
   },
   "plugins": ["@typescript-eslint"],
-  "ignorePatterns": ["webpack.*", "node_modules/"],
+  "ignorePatterns": ["webpack.*", "node_modules/", "src/__tests__/**"],
   "rules": {}
 }

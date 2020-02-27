@@ -1,18 +1,16 @@
 {
   "name": "nyarm",
-  "version": "0.0.10",
+  "version": "0.1.0",
   "description": "😸 npm + yarn => nyarm 😸",
   "main": "lib/nyarm.js",
   "scripts": {
-    "prepare": "run-s clean build terser",
-    "build": "tsc",
-    "terser": "npx terser --compress --mangle --output lib/nyarm.js  -- dist/src/index.js",
-    "lint": "eslint src/*",
-    "clean": "run-p clean:dist clean:lib",
-    "clean:dist": "rimraf dist/*",
+    "prepare": "run-s clean build",
+    "build": "rollup -c",
+    "lint": "eslint src/**/*",
+    "clean": "run-p clean:lib",
     "clean:lib": "rimraf lib/*",
-    "precommit": "run-p lint build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "precommit": "run-p lint test build",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -31,20 +29,30 @@
     "inquirer": "^7.0.4"
   },
   "devDependencies": {
+    "@rollup/plugin-json": "^4.0.2",
+    "@rollup/plugin-typescript": "^3.0.0",
     "@types/chalk": "2.2.0",
     "@types/inquirer": "6.5.0",
+    "@types/jest": "^25.1.3",
     "@types/node": "13.7.4",
     "@typescript-eslint/eslint-plugin": "2.20.0",
     "@typescript-eslint/parser": "2.20.0",
     "eslint": "6.8.0",
     "eslint-config-prettier": "6.10.0",
     "eslint-plugin-prettier": "3.1.2",
+    "jest": "^25.1.0",
     "husky": "4.2.3",
     "npm-run-all": "4.1.5",
     "prettier": "1.19.1",
     "rimraf": "3.0.2",
+    "rollup": "^1.31.1",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-terser": "^5.2.0",
+    "rollup-plugin-typescript2": "^0.26.0",
     "terser": "4.6.3",
+    "ts-jest": "^25.2.1",
     "ts-node": "8.6.2",
+    "tslib": "^1.10.0",
     "typescript": "3.8.2"
   },
   "bugs": {
