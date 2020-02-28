@@ -11,7 +11,7 @@ You can use just nyarm for all your project.
 ## install
 
 ```sh
-$ npm install -G nyarm
+$ npm install -g nyarm
 # or 
 $ yarn global add nyarm
 ```
