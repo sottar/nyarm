@@ -1,6 +1,7 @@
 # nyarm
 
 [![npm version](https://badge.fury.io/js/nyarm.svg)](https://badge.fury.io/js/nyarm)
+[![Actions Status](https://github.com/sottar/nyarm/workflows/build/badge.svg)](https://github.com/sottar/nyarm/actions)
 
 npm + yarn => nyarm
 
@@ -10,7 +11,7 @@ You can use just nyarm for all your project.
 ## install
 
 ```sh
-$ npm install -G nyarm
+$ npm install -g nyarm
 # or 
 $ yarn global add nyarm
 ```
