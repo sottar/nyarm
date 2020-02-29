@@ -5,8 +5,8 @@
 
 npm + yarn => nyarm
 
-Can you answer npm or yarn in your project?
-You can use just nyarm for all your project.
+Which one are you using npm or yarn?  
+You can use just **nyarm** for all your projects.
 
 ## install
 
@@ -18,18 +18,20 @@ $ yarn global add nyarm
 
 ## usage
 
+Just use the nyarm command instead of npm or yarn
+
 ```sh
 $ nyarm {install | add}
 # npm project => npm install
 # yarn project => yarn install
 
-$ nyarm {install | add} foobar
-# npm project => npm install foobar
-# yarn project => yarn add foobar
+$ nyarm {install | add} {module_name}
+# npm project => npm install {module_name}
+# yarn project => yarn add {module_name}
 
-$ nyarm {uninstall | remove} foobar
-# npm project => npm uninstall foobar
-# yarn project => yarn remove foobar
+$ nyarm {uninstall | remove} {module_name}
+# npm project => npm uninstall {module_name}
+# yarn project => yarn remove {module_name}
 ```
 
 ## Licence
