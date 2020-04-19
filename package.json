@@ -29,7 +29,7 @@
     "inquirer": "^7.0.4"
   },
   "devDependencies": {
-    "@rollup/plugin-json": "4.0.2",
+    "@rollup/plugin-json": "4.0.3",
     "@rollup/plugin-typescript": "4.0.0",
     "@types/chalk": "2.2.0",
     "@types/inquirer": "6.5.0",
